@@ -508,14 +508,19 @@ var interArr = {'leftPElems':  ['option1','option2', 'option3', 'option4', 'opti
                 }
 
 
-var interElemTypeArr = {'leftPElems':  ['p','p','p','p','p','p'],
-                        'middlePElems':['p','p','p','p','p','p'],
-                        'rightPElems': ['p','p','p','p','p','p'],
+var interElemTypeArr = {'leftPElems':  ['div','div','div','div','div','div'],
+                        'middlePElems':['div','div','div','div','div','div'],
+                        'rightPElems': ['div','div','div','div','div','div'],
                         }
 
 var interElemClass1Add = {'leftPElems':  ['options','options', 'options', 'options', 'options', 'options'],
                           'middlePElems':['dropZone','dropZone','dropZone','dropZone','dropZone','dropZone'],
                           'rightPElems': ['dragItem','dragItem','dragItem','dragItem','dragItem','dragItem'],
+                          }
+                          
+var interElemClass2Add = {'leftPElems':  ['draggable','draggable','draggable','draggable','draggable','draggable'],
+                          'middlePElems':['static','draggable','draggable','draggable','draggable','draggable'],
+                          'rightPElems': ['draggable','draggable','draggable','draggable','draggable','draggable'],
                           }
 
 var interTexL1 = "Text for Box L1";
@@ -562,9 +567,10 @@ function buildInteraction() {
                 // console.log(interArr[key][i] + ' This is the name of the element that was created.');
                     interElement();
                         function interElement() { 
-                        var interEleP = document.createElement('p');
+                        var interEleP = document.createElement('div');
                         interEleP.setAttribute('id', interArr[key][i]);
                         interEleP.classList.add(interElemClass1Add[key][i]);
+                        interEleP.classList.add(interElemClass2Add[key][i]);
                         // the reason the below argument works is because the names of the arrays in the json objects are the same.
                         interEleP.innerHTML = interTextArr[key][i];
                         // console.log(interEleP.innerHTML + ' This is the text that gets inserted into the p element');
@@ -648,17 +654,18 @@ function buildInteraction() {
                                 if(i==0){
                                     var eleName  = document.getElementById(interArr[key][i]);
                                     eleName.style.height = recomendedInterEleHeight + 'px';
-                                    eleName.style.top = a + 'px';
+                                    eleName.style.top = (a+b) + 'px';
+                                    console.log(eleName.style.top);
                                 } else if(i>=1 && i <= ((bIntEleNum/3)-2)){
                                     a += b+c;
                                     var eleName  = document.getElementById(interArr[key][i]);
                                     eleName.style.height = recomendedInterEleHeight + 'px';
-                                    eleName.style.top = a + 'px';
+                                    eleName.style.top = (a+b) + 'px';
                                 } else if(i>=(bIntEleNum/3)-1 && i <= bIntEleNum/3){
                                     a += b+c;
                                     var eleName  = document.getElementById(interArr[key][i]);
                                     eleName.style.height = recomendedInterEleHeight + 'px';
-                                    eleName.style.top = a + 'px';
+                                    eleName.style.top = (a+b) + 'px';
                                     a = elementPositionerStartPos;
                                 }                               
                             }
@@ -666,85 +673,14 @@ function buildInteraction() {
     }   
 }
 
-
- 
-
-
-
-
-
-
-
-
-
-
-    // // target elements with the "draggable" class
-    // interact('.draggable')
-    //     .draggable({
-    //         // enable inertial throwing
-    //         inertia: true,
-    //         // keep the element within the area of it's parent
-    //         restrict: {
-    //             restriction: "parent",
-    //             endOnly: true,
-    //             elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-    //         },
-    //         // enable autoScroll
-    //         autoScroll: true,
-    //         onstart: function (event) {
-    //             console.log('onstart');
-    //         },
-    //         // call this function on every dragmove event
-    //         onmove: dragMoveListener,
-    //         // call this function on every dragend event
-    //         onend: function (event) {
-    //             console.log('onend');
-    //             var textEl = event.target.querySelector('p');
-    //             textEl && (textEl.textContent =
-    //                 'moved a distance of '
-    //                 + (Math.sqrt(event.dx * event.dx +
-    //                     event.dy * event.dy)|0) + 'px');
-    //         }
-    //     });
-
-    // function dragMoveListener (event) {
-    //     console.log('dragMoveListener');
-    //     var target = event.target,
-    //         // keep the dragged position in the data-x/data-y attributes
-    //         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-    //         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-    //     // translate the element
-    //     target.style.webkitTransform =
-    //         target.style.transform =
-    //             'translate(' + x + 'px, ' + y + 'px)';
-    //     // update the position attributes
-    //     target.setAttribute('data-x', x);
-    //     target.setAttribute('data-y', y);
-    // }
-
-    //     var element = document.getElementById('drag_item_1');
-
-    //     interact(element)
-    //       .draggable({
-    //         snap: {
-    //           targets: [
-    //             interact.createSnapGrid({ x: 30, y: 30 })
-    //           ],
-    //           range: Infinity,
-    //           relativePoints: [ { x: 0, y: 0 } ]
-    //         },
-    //         inertia: true,
-    //         restrict: {
-    //           restriction: element.parentNode,
-    //           elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
-    //           endOnly: true
-    //         }
-    //       })
-    //       .on('dragmove', function (event) {
-    //         x += event.dx;
-    //         y += event.dy;
-
-    //         event.target.style.webkitTransform =
-    //         event.target.style.transform =
-    //             'translate(' + x + 'px, ' + y + 'px)';
-    //       });
+interact('.drag-and-resize')
+  .draggable({
+    snap: {
+      targets: [
+        { x: 100, y: 200 },
+        function (x, y) { return { x: x % 20, y: y }; }
+    ]}
+  })
+  .resizable({
+    inertia: true
+  });
