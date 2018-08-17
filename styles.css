@@ -410,3 +410,12 @@ html, body {
 	cursor: pointer;
 	margin: 0;
 }
+
+.drop-target {
+	background-color:#FDB934;
+}
+
+.correct{
+	background-color: green;
+	border-color:  green;
+}

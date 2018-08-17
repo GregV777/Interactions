@@ -519,8 +519,8 @@ var interElemClass1Add = {'leftPElems':  ['options','options', 'options', 'optio
                           }
                           
 var interElemClass2Add = {'leftPElems':  ['draggable','draggable','draggable','draggable','draggable','draggable'],
-                          'middlePElems':['static','draggable','draggable','draggable','draggable','draggable'],
-                          'rightPElems': ['draggable','draggable','draggable','draggable','draggable','draggable'],
+                          'middlePElems':['dropzone1','dropzone2','dropzone3','dropzone4','dropzone5','dropzone6'],
+                          'rightPElems': ['draggable1','draggable2','draggable3','draggable4','draggable5','draggable6'],
                           }
 
 var interTexL1 = "Text for Box L1";
@@ -673,14 +673,116 @@ function buildInteraction() {
     }   
 }
 
-interact('.drag-and-resize')
+
+
+
+// target elements with the "draggable" class
+interact('.draggable1')
   .draggable({
-    snap: {
-      targets: [
-        { x: 100, y: 200 },
-        function (x, y) { return { x: x % 20, y: y }; }
-    ]}
-  })
-  .resizable({
-    inertia: true
+    // enable inertial throwing
+    inertia: true,
+    // keep the element within the area of it's parent
+    restrict: {
+      restriction: "parent",
+      endOnly: true,
+      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+    },
+    // enable autoScroll
+    autoScroll: true,
+
+    // call this function on every dragmove event
+    onmove: dragMoveListener,
+    // call this function on every dragend event
+    onend: function (event) {
+      var textEl = event.target.querySelector('p');
+
+      textEl && (textEl.textContent =
+        'moved a distance of '
+        + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+                     Math.pow(event.pageY - event.y0, 2) | 0))
+            .toFixed(2) + 'px');
+    }
   });
+
+  function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
+
+  // this is used later in the resizing and gesture demos
+  window.dragMoveListener = dragMoveListener;
+
+
+
+
+
+
+  // enable draggables to be dropped into this
+interact('.dropzone1').dropzone({
+    // only accept elements matching this CSS selector
+    accept: '#dragItem1',
+    // Require a 75% element overlap for a drop to be possible
+    overlap: 0.50,
+  
+    // listen for drop related events:
+  
+    ondropactivate: function (event) {
+      // add active dropzone feedback
+      event.target.classList.add('drop-active');
+    },
+    ondragenter: function (event) {
+      var draggableElement = event.relatedTarget,
+          dropzoneElement = event.target;
+  
+      // feedback the possibility of a drop
+      dropzoneElement.classList.add('drop-target');
+      draggableElement.classList.add('can-drop');
+      draggableElement.textContent = 'Dragged in';
+    },
+    ondragleave: function (event) {
+      // remove the drop feedback style
+      event.target.classList.remove('drop-target');
+      event.relatedTarget.classList.remove('can-drop');
+      event.relatedTarget.textContent = 'Dragged out';
+    },
+    ondrop: function (event) {
+      event.relatedTarget.classList.add('correct');
+      event.relatedTarget.textContent = 'Dropped';
+    },
+    ondropdeactivate: function (event) {
+      // remove active dropzone feedback
+      event.target.classList.remove('drop-active');
+      event.target.classList.remove('drop-target');
+    }
+  });
+
+
+
+
+    interact(element)
+    .draggable({
+    snap: {
+        targets: [
+        interact.createSnapGrid({ x: 30, y: 30 })
+        ],
+        range: Infinity,
+        relativePoints: [ { x: 0, y: 0 } ]
+    },
+    inertia: true,
+    restrict: {
+        restriction: element.parentNode,
+        elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
+        endOnly: true
+    }
+    });
