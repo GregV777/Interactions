@@ -76,7 +76,7 @@ function dynamX() {
         moveThisThingX.style.left = xAxis + 'px';
     }
 
-        window.addEventListener("resize", function(event) {
+        window.addEventListener("resize", function() {
             console.log(document.body.clientWidth + ' wide by ' + document.body.clientHeight+' high');
             screenW = document.body.clientWidth;
             screenH = document.body.clientHeight;
@@ -142,7 +142,7 @@ function dynamX() {
                 moveThisThingY.style.top = yAxis + 'px';
             }
 
-                window.addEventListener("resize", function(event) {
+                window.addEventListener("resize", function() {
                     console.log(document.body.clientWidth + ' wide by ' + document.body.clientHeight+' high');
                     screenW = document.body.clientWidth;
                     screenH = document.body.clientHeight;
@@ -549,12 +549,12 @@ var interTextArr = {'leftPElems':   [interTexL1, interTexL2, interTexL3, interTe
 
 var interFuncTrigArr = {'leftPElems':   ['onclick','onclick','onclick','onclick','onclick', 'onclick'],
                         'middlePElems': ['onclick','onclick','onclick','onclick','onclick', 'onclick'],
-                        'rightPElems':  ['onclick','onclick','onclick','onclick','onclick', 'onclick'],
+                        'rightPElems':  ['onmousedown','onmousedown','onmousedown','onmousedown','onmousedown', 'onmousedown'],
                         }
 
 var interFuncArr = {'leftPElems':   ['doNothing()','doNothing()','doNothing()','doNothing()','doNothing()','doNothing()'],
                     'middlePElems': ['doNothing()','doNothing()','doNothing()','doNothing()','doNothing()','doNothing()'],
-                    'rightPElems':  ['doNothing()','doNothing()','doNothing()','doNothing()','doNothing()','doNothing()'],
+                    'rightPElems':  ['theChosenElem(dragItem1,dropZone1,0)','theChosenElem(dragItem2,dropZone2,1)','theChosenElem(dragItem3,dropZone3,2)','theChosenElem(dragItem4,dropZone4,3)','theChosenElem(dragItem5,dropZone5,4)','theChosenElem(dragItem6,dropZone6,5)'],
                     }
 
 function buildInteraction() {
@@ -571,6 +571,7 @@ function buildInteraction() {
                         interEleP.setAttribute('id', interArr[key][i]);
                         interEleP.classList.add(interElemClass1Add[key][i]);
                         interEleP.classList.add(interElemClass2Add[key][i]);
+                        interEleP.setAttribute(interFuncTrigArr[key][i], interFuncArr[key][i]);
                         // the reason the below argument works is because the names of the arrays in the json objects are the same.
                         interEleP.innerHTML = interTextArr[key][i];
                         // console.log(interEleP.innerHTML + ' This is the text that gets inserted into the p element');
@@ -578,7 +579,9 @@ function buildInteraction() {
                 }
             }
         }
+
     spaceing();
+
     function spaceing(){
             var screenW = window.innerWidth || document.documentElement.clientWidth
             || document.body.clientWidth;
@@ -588,62 +591,50 @@ function buildInteraction() {
             hdgBackgroundBox =  document.getElementById("backgroundBox");
             
             var position = hdgBackgroundBox.getBoundingClientRect();
-            console.log(position + ' this is the element backroundBox');
+            // console.log(position + ' this is the element backroundBox');
             
             backgroundBoxYAxTop = position.top;
-            console.log(backgroundBoxYAxTop + ' This is the x coordinate for the top of the backgroundBox');
+            // console.log(backgroundBoxYAxTop + ' This is the x coordinate for the top of the backgroundBox');
             
             backgroundBoxHeight = position.height;
-            console.log(backgroundBoxHeight + ' This is the height of the backgroundBox');
+            // console.log(backgroundBoxHeight + ' This is the height of the backgroundBox');
 
             
             nextButton =  document.getElementById("next");
             
             var position = nextButton.getBoundingClientRect();
-            console.log(position + ' this is the element next');
+            // console.log(position + ' this is the element next');
             
             nextButtonYAxTop = position.top;
-            console.log(nextButtonYAxTop + ' This is the x coordinate for the top of the next button');
+            // console.log(nextButtonYAxTop + ' This is the x coordinate for the top of the next button');
            
             nextButtonHeight = position.height;
-            console.log(nextButtonHeight + ' This is the height of the next button');
+            // console.log(nextButtonHeight + ' This is the height of the next button');
 
            
-            var interElem =  document.getElementById('option1');
-            console.log(interElem);
-            
-            var position = interElem.getBoundingClientRect();
-            console.log(position + ' this is the element option1');
-            
-            interElemYAxTop = position.top;
-            console.log(interElemYAxTop + ' This is the x coordinate for the top of the element option1');
-           
-            interElemHeight = position.height;
-            console.log(interElemHeight + ' This is the height of the element option1');
-
             usablePageHeight = screenH-(backgroundBoxHeight + (screenH-nextButtonYAxTop));
-            console.log(usablePageHeight + ' This is the usable screen height for the element option1');
+            // console.log(usablePageHeight + ' This is the usable screen height for the element option1');
 
 
             //This works out the distance between element centres.
             elementPositionerSpaces = usablePageHeight/((bIntEleNum/3)+1);
-            console.log(elementPositionerSpaces + ' distance between element centres');
+            // console.log(elementPositionerSpaces + ' distance between element centres');
             
             //This is where the top of the firts element will be positioned.
             elementPositionerStartPos = backgroundBoxHeight;
-            console.log(elementPositionerStartPos + ' Where the top of the first element will be');
+            // console.log(elementPositionerStartPos + ' Where the top of the first element will be');
 
             //This is the space that will be made between the elements.
             elementPositionerSpacer = (usablePageHeight/((bIntEleNum/3)+1))/((bIntEleNum/3)+1);
-            console.log(elementPositionerSpacer + ' This is the space that will be made between the elements');
+            // console.log(elementPositionerSpacer + ' This is the space that will be made between the elements');
 
 
             recomendedInterEleHeight = elementPositionerSpaces-elementPositionerSpacer;
-            console.log(recomendedInterEleHeight + ' This is the recomended hight of the element :-P');
+            // console.log(recomendedInterEleHeight + ' This is the recomended hight of the element :-P');
 
 
             var a = elementPositionerStartPos;
-            console.log(a + ' This is the variable a BEFORE additions');
+            // console.log(a + ' This is the variable a BEFORE additions');
             var b = elementPositionerSpacer;
             var c = elementPositionerSpaces;
 
@@ -670,61 +661,219 @@ function buildInteraction() {
                                 }                               
                             }
                         } 
-    }   
+    } 
+    // console.log(interArr.middlePElems.length + ' this is what im looking for')
+    snapTarget(); 
+    
+}
+
+var inActionDrag;  
+var inActionDrop;
+var inActionEleName;
+var diPerimPoints = [];
+
+function theChosenElem(theDragItem,theDropZone,theEle) {
+    inActionDrag = theDragItem;
+    // console.log(inActionDrag);
+    inActionDrop =theDropZone;
+    // console.log(theDropZone);
+    inActionEleName = interArr.rightPElems[theEle];
+    console.log(inActionEleName);
+
+    document.getElementById(inActionEleName).addEventListener("mousedown", interactableDataOn);
+    document.getElementById(inActionEleName).addEventListener("mouseup", interactableDataOff);
+
+    elePosCheckerPeriod = setInterval(interactableDataOn,100);
+
+    function interactableDataOn() {
+        elem = document.getElementById('dragItem1');
+        var position = elem.getBoundingClientRect();
+        CalcPosOfDragItem();
+        //The line below clears out the diPerimPoints array so that when you click again the array does not get added to.
+        diPerimPoints = [];
+        // console.log('On function fired');
+    }
+
+    function interactableDataOff() {
+        clearInterval(elePosCheckerPeriod);
+        // console.log('Off function fired');
+    }
+    
+    function CalcPosOfDragItem() {
+        var diElem = document.getElementById(inActionEleName);
+        var diPosition = diElem.getBoundingClientRect();
+
+        diEleX=diPosition.left;
+        diEleY=diPosition.top;
+        diEleH=diPosition.height;
+        diEleW=diPosition.width;
+
+        var diBoxTLCoOrdX = diEleX;
+        var diBoxTLCoOrdY = diEleY;
+        var diBoxTRCoOrdX = diEleX + diEleW;
+        var diBoxTRCoOrdY = diEleY;
+        var diBoxBLCoOrdX = diEleX;
+        var diBoxBLCoOrdY = diEleY + diEleH;
+        var diBoxBRCoOrdX = diEleX + diEleW;
+        var diBoxBRCoOrdY = diEleY + diEleH;
+
+        // console.log(diBoxTLCoOrdX);
+        // console.log(diBoxTLCoOrdY);
+        // console.log(diBoxTRCoOrdX);
+        // console.log(diBoxTRCoOrdY);
+        // console.log(diBoxBLCoOrdX);
+        // console.log(diBoxBLCoOrdY);
+        // console.log(diBoxBRCoOrdX);
+        // console.log(diBoxBRCoOrdY);
+
+        diPerimPoints.push(diBoxTLCoOrdX,diBoxTLCoOrdY,diBoxTRCoOrdX,diBoxTRCoOrdY,diBoxBLCoOrdX,diBoxBLCoOrdY,diBoxBRCoOrdX,diBoxBRCoOrdY);
+        // console.log(diPerimPoints);
+
+        // console.log(diPerimPoints[0]);
+
+            var condi1 = (diPerimPoints[0]>=dzPerimPoints[0] && diPerimPoints[0]<=dzPerimPoints[2] && diPerimPoints[1]>=dzPerimPoints[1] && diPerimPoints[1]<=dzPerimPoints[5]);
+            var condi2 = (diPerimPoints[4]>=dzPerimPoints[4] && diPerimPoints[4]<=dzPerimPoints[6] && diPerimPoints[5]<=dzPerimPoints[5] && diPerimPoints[5]>=dzPerimPoints[1]);
+            var condi3 = (diPerimPoints[2]>=dzPerimPoints[0] && diPerimPoints[2]<=dzPerimPoints[2] && diPerimPoints[3]<=dzPerimPoints[7] && diPerimPoints[3]>=dzPerimPoints[3]);
+            var condi4 = (diPerimPoints[6]>=dzPerimPoints[4] && diPerimPoints[6]<=dzPerimPoints[6] && diPerimPoints[7]<=dzPerimPoints[7] && diPerimPoints[7]>=dzPerimPoints[3]);
+
+            if((condi1)||(condi2)||(condi3)||(condi4)){
+                inActionDrop.classList.add('drop-target');
+                // console.log(dzPerimPoints);
+            } else{
+                inActionDrop.classList.remove('drop-target');
+            } 
+    }
+}
+
+// var overlap = isOverlap('#dragItem1','#dropZone2');
+
+// if(overlap){
+//     alert('its overlapping');
+// } else {
+//     alert('its not overlapping');
+// }
+
+var dzPerimPoints = [];
+
+function snapTarget() {
+    //This creates a new array and the function below it replaces the the array snap targets with this empty array.
+    //The reason we do this is to clean out that array so only the snap targets we create are inside that array.
+    cleanTargetArr=new Array();
+    // console.log(cleanTargetArr + ' this should create an array with a bunch of empty values');
+    
+    interact('.draggable1').options.drag.snap.targets = cleanTargetArr;
+    // console.log(interact('.draggable1').options.drag.snap.targets);
+    
+
+    for(i=0;i<interArr.middlePElems.length;i++) {
+    var interElem = document.getElementById(interArr.middlePElems[i]);
+    // console.log(interElem);
+
+    var position = interElem.getBoundingClientRect();
+    // console.log(position + ' this is the element option1');
+
+    interElemYAxTop = position.top;
+    // console.log(interElemYAxTop + ' This is the Y coordinate for the top of the drop zone of the chosen element');
+
+    interElemXAxTop = position.left;
+    // console.log(interElemXAxTop + ' This is the x coordinate for the left of the drop zone of the chosen element');
+
+    interElemHeight = position.height;
+    // console.log(interElemHeight + ' This is the height of the dropzone of the chosen element');
+
+    interElemWidth = position.width;
+    // console.log(interElemWidth + ' This is the width of the dropzone of the chosen element');
+
+    //This gets the coordinates of the top left corner of the drop target so we can add them to the snap target array.
+    dropEleX=interElemXAxTop;
+    dropEleY=interElemYAxTop;
+    dropEleH=interElemHeight*0.5;
+    dropEleW=interElemWidth;
+
+    // console.log(dropEleX,dropEleY,dropEleH);
+
+    //This creates the snap target to put into the array.
+    var snapTarget = {x: dropEleX, y: dropEleY, range: dropEleH *0.5};
+    
+    //This pushes the snap target into the snap target array. 
+    interact('.draggable1').options.drag.snap.targets.push(snapTarget);
+    // console.log(snapTarget + ' this is snapTarget');
+
+    // interact('.draggable1').options.drag.snap.targets[i].x = dropEleX;
+    // interact('.draggable1').options.drag.snap.targets[i].y = dropEleY;
+    // interact('.draggable1').options.drag.snap.targets[i].range = dropEleH*0.5;
+
+
+    // console.log(interact('.draggable1').options.drag.snap.targets[0].x);
+    // console.log(interact('.draggable1').options.drag.snap.targets[0].y);
+    // console.log(interact('.draggable1').options.drag.snap.targets[0].range);
+
+    var dzBoxTLCoOrdX = dropEleX;
+    var dzBoxTLCoOrdY = dropEleY;
+    var dzBoxTRCoOrdX = dropEleX + dropEleW;
+    var dzBoxTRCoOrdY = dropEleY;
+    var dzBoxBLCoOrdX = dropEleX;
+    var dzBoxBLCoOrdY = dropEleY + interElemHeight;
+    var dzBoxBRCoOrdX = dropEleX + dropEleW;
+    var dzBoxBRCoOrdY = dropEleY + interElemHeight;
+    // console.log(dzBoxTLCoOrdX);
+    // console.log(dzBoxTLCoOrdY);
+    // console.log(dzBoxTRCoOrdX);
+    // console.log(dzBoxTRCoOrdY);
+    // console.log(dzBoxBLCoOrdX);
+    // console.log(dzBoxBLCoOrdY);
+    // console.log(dzBoxBRCoOrdX);
+    // console.log(dzBoxBRCoOrdY);
+
+    dzPerimPoints.push(dzBoxTLCoOrdX,dzBoxTLCoOrdY,dzBoxTRCoOrdX,dzBoxTRCoOrdY,dzBoxBLCoOrdX,dzBoxBLCoOrdY,dzBoxBRCoOrdX,dzBoxBRCoOrdY)
+
+    }
+    // console.log(interact('.draggable1').options.drag.snap.targets);
+    // console.log(perimPoints);
 }
 
 
+  // target elements with the "draggable" class
+interact('.draggable1').draggable({
+  snap: {
+      // snap to the point (0, 0) if the pointer gets 50 pixels close
+      targets:        [ { x: 0, y: 0, range: 0 }],
 
-
-// target elements with the "draggable" class
-interact('.draggable1')
-  .draggable({
-    // enable inertial throwing
-    inertia: true,
-    // keep the element within the area of it's parent
-    restrict: {
-      restriction: "parent",
-      endOnly: true,
-      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+      relativePoints: [ { x: 0, y: 0 }]
     },
-    // enable autoScroll
-    autoScroll: true,
+  // enable inertial throwing
+  inertia: true,
+  // keep the element within the area of it's parent
+  restrict: {
+    restriction: "parent",
+    endOnly: true,
+    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+  },
+  // enable autoScroll
+  autoScroll: false,
 
-    // call this function on every dragmove event
-    onmove: dragMoveListener,
-    // call this function on every dragend event
-    onend: function (event) {
-      var textEl = event.target.querySelector('p');
+  // call this function on every dragmove event
+  onmove: dragMoveListener
+});
 
-      textEl && (textEl.textContent =
-        'moved a distance of '
-        + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
-                     Math.pow(event.pageY - event.y0, 2) | 0))
-            .toFixed(2) + 'px');
-    }
-  });
+function dragMoveListener (event) {
+  var target = event.target,
+      // keep the dragged position in the data-x/data-y attributes
+      x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+      y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-  function dragMoveListener (event) {
-    var target = event.target,
-        // keep the dragged position in the data-x/data-y attributes
-        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+  // translate the element
+  target.style.webkitTransform =
+  target.style.transform =
+    'translate(' + x + 'px, ' + y + 'px)';
 
-    // translate the element
-    target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
+  // update the posiion attributes
+  target.setAttribute('data-x', x);
+  target.setAttribute('data-y', y);
+}
 
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-  }
-
-  // this is used later in the resizing and gesture demos
-  window.dragMoveListener = dragMoveListener;
-
-
-
+// this is used later in the resizing and gesture demos
+window.dragMoveListener = dragMoveListener;
 
 
 
@@ -733,8 +882,23 @@ interact('.dropzone1').dropzone({
     // only accept elements matching this CSS selector
     accept: '#dragItem1',
     // Require a 75% element overlap for a drop to be possible
-    overlap: 0.50,
-  
+    overlap: 0.75,
+    
+    //The list below is all the elements you can add to the checker function, which is an optional function.
+
+    // checker: function (
+    //     dragEvent,         // related dragmove or dragend
+    //     event,             // Touch, Pointer or Mouse Event
+    //     dropped,           // bool default checker result
+    //     dropzone,          // dropzone Interactable
+    //     dropElement,       // dropzone element                      
+    //     draggable,         // draggable Interactable
+    //     draggableElement) {// draggable element
+
+    // // only allow drops into empty dropzone elements
+    // return dropped && !dropElement.hasChildNodes();
+    // },
+    
     // listen for drop related events:
   
     ondropactivate: function (event) {
@@ -759,6 +923,7 @@ interact('.dropzone1').dropzone({
     ondrop: function (event) {
       event.relatedTarget.classList.add('correct');
       event.relatedTarget.textContent = 'Dropped';
+      event.relatedTarget.classList.remove('draggable1');
     },
     ondropdeactivate: function (event) {
       // remove active dropzone feedback
@@ -770,19 +935,155 @@ interact('.dropzone1').dropzone({
 
 
 
-    interact(element)
-    .draggable({
-    snap: {
-        targets: [
-        interact.createSnapGrid({ x: 30, y: 30 })
-        ],
-        range: Infinity,
-        relativePoints: [ { x: 0, y: 0 } ]
-    },
-    inertia: true,
-    restrict: {
-        restriction: element.parentNode,
-        elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
-        endOnly: true
-    }
-    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//All this stuff below works!
+
+//   // target elements with the "draggable" class
+// interact('.draggable1')
+// .draggable({
+//   snap: {
+//       targets: [
+//       // snap to the point (0, 450) if the pointer gets 50 pixels close
+//       { x: 500, y: 120, range: 200 }
+//       ]
+//   },
+
+
+// targets:[ 
+//     { x: 0, y: 0, range: 0 }
+//     ],
+//     relativePoints: [ { x: 0, y: 0 } ]
+// },
+
+
+//   // enable inertial throwing
+//   inertia: true,
+//   // keep the element within the area of it's parent
+//   restrict: {
+//     restriction: "parent",
+//     endOnly: true,
+//     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+//   },
+//   // enable autoScroll
+//   autoScroll: false,
+
+//   // call this function on every dragmove event
+//   onmove: dragMoveListener,
+//   // call this function on every dragend event
+//   onend: function (event) {
+//       console.log();
+//     var textEl = event.target.querySelector('p');
+
+//     textEl && (textEl.textContent =
+//       'moved a distance of '
+//       + (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+//                    Math.pow(event.pageY - event.y0, 2) | 0))
+//           .toFixed(2) + 'px');
+//   }
+// });
+
+
+
+// function dragMoveListener (event) {
+//   var target = event.target,
+//       // keep the dragged position in the data-x/data-y attributes
+//       x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+//       y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+//   // translate the element
+//   target.style.webkitTransform =
+//   target.style.transform =
+//     'translate(' + x + 'px, ' + y + 'px)';
+
+//   // update the posiion attributes
+//   target.setAttribute('data-x', x);
+//   target.setAttribute('data-y', y);
+// }
+
+// // this is used later in the resizing and gesture demos
+// window.dragMoveListener = dragMoveListener;
+
+
+
+
+
+
+// // enable draggables to be dropped into this
+// interact('.dropzone1').dropzone({
+//   // only accept elements matching this CSS selector
+//   accept: '#dragItem1',
+//   // Require a 75% element overlap for a drop to be possible
+//   overlap: 0.50,
+
+//   // listen for drop related events:
+
+//   ondropactivate: function (event) {
+//     // add active dropzone feedback
+//     event.target.classList.add('drop-active');
+//   },
+//   ondragenter: function (event) {
+//     var draggableElement = event.relatedTarget,
+//         dropzoneElement = event.target;
+
+//     // feedback the possibility of a drop
+//     dropzoneElement.classList.add('drop-target');
+//     draggableElement.classList.add('can-drop');
+//     draggableElement.textContent = 'Dragged in';
+//   },
+//   ondragleave: function (event) {
+//     // remove the drop feedback style
+//     event.target.classList.remove('drop-target');
+//     event.relatedTarget.classList.remove('can-drop');
+//     event.relatedTarget.textContent = 'Dragged out';
+//   },
+//   ondrop: function (event) {
+//     event.relatedTarget.classList.add('correct');
+//     event.relatedTarget.textContent = 'Dropped';
+//   },
+//   ondropdeactivate: function (event) {
+//     // remove active dropzone feedback
+//     event.target.classList.remove('drop-active');
+//     event.target.classList.remove('drop-target');
+//   }
+// });
