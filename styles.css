@@ -264,6 +264,7 @@ html, body {
 	border-width:0.35vh;
 	border-style: solid;
 	border-color: #6c0523;
+	z-index:+5;
 
 }
 
@@ -287,17 +288,18 @@ html, body {
 	border-color: #FDB934;
 	display:flex;
     align-items: center;     /*Vertical center alignment */
-    justify-content: center;
+	justify-content: center;
+	z-index:+5;
 }
 
 #infoTitle {
-	color:#ffffff
-;
+	color:#ffffff;
 	font-size: 4.5vh;
 	font-family: roboto;
 	position: absolute;
 	left:7.5vw;
 	top:25.5vh;
+	z-index:+5;
 }
 
 #infoText {
@@ -310,6 +312,7 @@ html, body {
 	top:35.5vh;
 	width: 67.5vw;
 	height: 6.5vh;
+	z-index:+5;
 }
 
 #infoClose {
@@ -326,6 +329,7 @@ html, body {
 	top:24.5vh;
 	border-radius: 50vh;
 	cursor: pointer;
+	z-index:+5;
 }
 
 #infoClose:active {
@@ -366,6 +370,7 @@ html, body {
     justify-content: center;
 	cursor: pointer;
 	margin: 0;
+	z-index:+1;
 }
 
 .dropZone {
@@ -388,6 +393,7 @@ html, body {
     justify-content: center;
 	cursor: pointer;
 	margin: 0;
+	z-index:+1;
 }
 
 .dragItem {
@@ -409,6 +415,7 @@ html, body {
     justify-content: center;
 	cursor: pointer;
 	margin: 0;
+	z-index:+1;
 }
 
 .drop-target {
