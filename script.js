@@ -1,3 +1,14 @@
+////////////////////////////////////////////////////////////////////////////////////////////////
+// This is a drag and drop interaction /////////////////////////////////////////////////////////
+// The interaction uses the interact.js library to facilitate dragging, inertia and snapping. //
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////
+//This is where the front page is built out and moved around//
+//////////////////////////////////////////////////////////////
+
+
 var pageElementObArr = {'idN':  ['yellowStripe', 'titleBox', 'sB'  ], 
                         'elementN':['','REPUTATIONAL RISKS','START']
                         }
@@ -238,6 +249,12 @@ var intSet = setInterval(moveDiv, 25);
     }
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//This clears the front page before the interaction backround elements and info is built//
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
 function cleanPage() {
     for (t=0;t<pageElementObArr.idN.length;t++) {
         u = pageElementObArr.idN[t];
@@ -247,6 +264,12 @@ function cleanPage() {
     }
     buildHeadingAndNav();
 } 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//This is where all the backround elements and buttons are built out for the interaction page//
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 var dragAndDropNo = 6;
 
@@ -292,6 +315,13 @@ function buildHeadingAndNav() {
 function doNothing() {
 
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is where all the elements are removed from the page when you click restart on the interaction page//
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 var restartPressed;
 function restart() {
     for (t=0;t<headingArr.length;t++) {
@@ -325,6 +355,11 @@ function restart() {
         arrayCreNo=0;
     ClassAndEleName();
 }
+
+
+////////////////////////////////////////////////////////////////////////////
+//This is where all the elements for the info page are built out and moved//
+////////////////////////////////////////////////////////////////////////////
 
 
 var infoArr = ['infoBackground','infoIcon', 'infoTitle', 'infoText', 'infoClose'];
@@ -520,6 +555,12 @@ function closeInf() {
         }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is where all the elements for the actual drag and drop interaction are built out (spacing included)//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 var interArr = {'leftPElems':  ['option1','option2', 'option3', 'option4', 'option5', 'option6'],
                 'middlePElems':['dropZone1','dropZone2','dropZone3','dropZone4','dropZone5','dropZone6'],
                 'rightPElems': ['dragItem1','dragItem2','dragItem3','dragItem4','dragItem5','dragItem6'],
@@ -707,6 +748,11 @@ function buildInteraction() {
     // console.log(interArr.middlePElems.length + ' this is what im looking for')
     snapTarget();  
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is where the position of the drag items is calculated to hilight intersection between drag item and drop zone //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 //This is the element being dragged. (not the name of the element)
 var inActionDrag;
@@ -929,6 +975,11 @@ function theChosenElem(theDragItem,theDropZone,theEle) {
 // } else {
 //     alert('its not overlapping');
 // }
+
+
+///////////////////////////////////////////////////////////
+//This is where the drag and drop functionality is added //
+///////////////////////////////////////////////////////////
 
 var dzPerimPoints = [];
 //The below object is created inside snap target. It is a list of all the corner points for each drop target.
@@ -1197,6 +1248,7 @@ interact('.dropZone1').dropzone({
 
   //console.log(interact('.dropZone1').options);
 
+  //The function below clears the page when the next button is clicked.
   function next(){
     for (t=0;t<headingArr.length;t++) {
         u = headingArr[t];
@@ -1231,8 +1283,13 @@ interact('.dropZone1').dropzone({
   }
 
 
-var refPageElementObArr = {'idN':  ['bPYellowStripe', 'bPttitleBox', 'rB', 'references'], 
-                        'elementN':['','REPUTATIONAL RISKS','']
+/////////////////////////////////////////////
+//This is where the back page is built out //
+/////////////////////////////////////////////
+
+
+var refPageElementObArr = {'idN':  ['bPYellowStripe', 'bPtitleBox', 'rB', 'references'], 
+                        'elementN':['','REPUTATIONAL RISKS','','']
                         }
 
 var refPosiArr = {'xPos':['(screenW/2)-(widthOfMoveThisThingX/2)', '(screenW/2)-(widthOfMoveThisThingX/2)', '',''], 
@@ -1245,14 +1302,14 @@ var refPosiArr = {'xPos':['(screenW/2)-(widthOfMoveThisThingX/2)', '(screenW/2)-
 
 
 function buildBackPage(){
-    var pageElementOb,i,j=-1,z='';
-    pageElementOb = refPageElementObArr;
+    var refPageElementOb,i,j=-1,z='';
+    refPageElementOb = refPageElementObArr;
 
         
-             for (i=0;i<pageElementOb.idN.length;i++) {
+             for (i=0;i<refPageElementOb.idN.length;i++) {
                 j=j+1;
-                x = pageElementOb.idN[i];
-                z = pageElementOb.elementN[j];
+                x = refPageElementOb.idN[i];
+                z = refPageElementOb.elementN[j];
                  //console.log(x,z);
                  pageElement();
                  }
@@ -1264,7 +1321,255 @@ function buildBackPage(){
                         document.getElementsByTagName('body')[0].appendChild(div);
                         }
                         // endMoveIn();
+                        
+                            var centreEle = document.getElementById('bPtitleBox');
+                            console.log(centreEle);
+                            ele = centreEle.getBoundingClientRect();
+                            console.log(ele.width);
+                            sW2 = screenW/2;
+                            console.log(sW2);
+                            eleW2 = ele.width/2;
+                            console.log(eleW2);
+                            eleCent = sW2-eleW2;
+                            centreEle.style.left = eleCent + 'px';
+                            document.getElementById("rB").setAttribute('onclick', 'cleanBackPage()');
+                            document.getElementById("references").setAttribute('onclick', 'buildRefs()');
 }
+
+function cleanBackPage() {
+    for (t=0;t<refPageElementObArr.idN.length;t++) {
+        u = refPageElementObArr.idN[t];
+        // console.log(u + ' This is the variable u');
+        var elemToRemove = document.getElementById(u);
+        elemToRemove.remove();
+    }
+    for (v=0;v<refArr.length;v++) {
+        w = refArr[v];
+        // console.log(w + ' This is the variable w for restart function');
+        var elemToRemove = document.getElementById(w);
+        elemToRemove.remove();
+    }
+    ClassAndEleName();
+}
+
+/////////////////////////////////////////////////////////
+//This is where the references get built and are moved //
+/////////////////////////////////////////////////////////
+
+
+var refArr = ['refBackground', 'refTitle', 'refText', 'refClose'];
+var refElemTypeArr = ['div', 'div', 'p', 'div'];
+var refTex = "Bender, M., Cilliers, L., Dalla Pria, M., Hopkins, B., Huxtable, B. and Watkins, G. (2018), Public Relations Basics. Cape Town: Edge Learning Media.";
+var refTextArr = ['','References:',refTex,''];
+var refFuncTrigArr = ['onclick','onclick','onclick','onclick'];
+var refFuncArr = ['doNothing()','doNothing()','doNothing()','closeRef()'];
+
+var firstOpen = false;
+
+function buildRefs() {
+    bIEleNum = 4;
+    var bIElemArr = new Array(bIEleNum);
+    // console.log(bIElemArr + ' This is the empty array elemArr for build information');
+    var k = -1;
+        for(j=0;j<refArr.length;j++){
+            k=k+1;
+            bIElemArr[k] = refArr[k];
+            // console.log(k + ' This is variable k in buildInformation');
+        }
+
+    // console.log(bIElemArr + ' This is the array bIEelemArr after adding names to it');
+
+    for(i=0;i<bIElemArr.length;i++) {
+        bIeleId = i;
+        infoPageElement();
+            function infoPageElement() { 
+                var bIdiv = document.createElement(refElemTypeArr[bIeleId]);
+                bIdiv.setAttribute('id', bIElemArr[bIeleId]);
+                bIdiv.innerHTML = refTextArr[i];
+                document.getElementsByTagName('body')[0].appendChild(bIdiv);
+                }    
+            }
+            addInfoFunction();
+                function addInfoFunction() {
+                    var l = -1;
+                    for(l=0;l<refFuncTrigArr.length;l++) {
+                        document.getElementById(refArr[l]).setAttribute(refFuncTrigArr[l],refFuncArr[l]);
+                        // console.log(infoFuncArr[l] + ' This is the operation put into each div in the build information function');
+                    }
+                }
+        // if(firstOpen==false){
+        //     closeRef();
+        // }else{
+            openRef();
+        //}
+        //firstOpen = true;
+}
+
+var refBackgroundTravDist = 0;
+
+function openRef() {
+    xAxisRefOpened = [];
+                for(b=0;b<refArr.length;b++){
+                    var elemName = document.getElementById(refArr[b]);
+
+                    var xAxisOrigNumInfEle = parseFloat(window.getComputedStyle(elemName,null).getPropertyValue("left"));
+                    xAxisRefOpened.push(xAxisOrigNumInfEle);
+
+                }
+                // console.log(xAxisInfoOpened);
+
+    var primeElemName = document.getElementById(refArr[0]);
+    // console.log(primeElemName);
+    
+    var xAxisTrack = window.addEventListener("moved", function(event) {
+    parseFloat(window.getComputedStyle(primeElemName,null).getPropertyValue("left"));
+    // console.log(xAxisTrack);
+    })
+
+    var xAxisOrigNum = parseFloat(window.getComputedStyle(primeElemName,null).getPropertyValue("left"));
+    // console.log(xAxisOrigNum + ' This is where the start button x axis for the info backround');
+
+    var xAxis = xAxisOrigNum;
+    // console.log(xAxis + ' this is the xAxis of the info box move in');
+
+    var incriment = xAxis/xAxis;
+    // console.log(incriment + ' This is incriment for info background move in');
+
+    var intSet = setInterval(moveDivs, 25);
+        function moveDivs() {
+            if (xAxis <= ((screenW*0.40)*-1) && xAxis>=(screenW*1.2)*-1) {
+            incriment = incriment+(incriment/10);
+            xAxis = xAxis+incriment;
+            primeElemName.style.left = xAxis + 'px';
+                for(b=1;b<refArr.length;b++){
+                        var elemName = document.getElementById(refArr[b]);
+
+                        var xAxisOrigNumNest = parseFloat(window.getComputedStyle(elemName,null).getPropertyValue("left"));
+                        // console.log(xAxisOrigNumNest + ' This is the original xAxis of all the element '+ infoArr[b] +' in the infoArr Array');
+
+                        var xAxisNest = xAxisOrigNumNest;
+                        // console.log(xAxisNest + ' this is the xAxis of the element '+ infoArr[b] +' in the info box coming in step 1');
+
+                        var incrimentNest = incriment;
+
+                        xAxisNest = xAxisNest+incrimentNest;
+
+                        elemName.style.left = xAxisNest + 'px';
+                    }
+            } else if (xAxis <= ((screenW*0.02)*-1) && xAxis>=(screenW*0.50)*-1) {
+                incriment = incriment-(incriment/10);
+                xAxis = xAxis+incriment;
+                primeElemName.style.left = xAxis + 'px';
+                    for(b=1;b<refArr.length;b++){
+                            var elemName = document.getElementById(refArr[b]);
+
+                            var xAxisOrigNumNest = parseFloat(window.getComputedStyle(elemName,null).getPropertyValue("left"));
+                            // console.log(xAxisOrigNumNest + ' This is the original xAxis of the element '+ infoArr[b] +' in the infoArr Array');
+
+                            var xAxisNest = xAxisOrigNumNest;
+                            // console.log(xAxisNest + ' this is the xAxis of the element '+ infoArr[b] +' in the info box coming in step 2');
+
+                            var incrimentNest = incriment;
+
+                            xAxisNest = xAxisNest+incrimentNest;
+
+                            elemName.style.left = xAxisNest + 'px';
+                        }
+            } else {
+                for(b=0;b<xAxisRefOpened.length;b++){
+                    var elemName = document.getElementById(refArr[b]);
+
+                    //elemName.style.left = (xAxisRefOpened[b] + refBackgroundTravDist) + 'px';
+                }
+                // console.log(infoBackgroundTravDist + 'This is the value of infoBackgroundTravDist BEFORE being cleared');
+                clearInterval(intSet);
+                infoBackgroundTravDist = 0;
+                // console.log(infoBackgroundTravDist + 'This is the value of infoBackgroundTravDist AFTER being cleared');
+            }
+        }
+}
+
+function closeRef() {
+    xAxisRefClosed = [];
+                for(b=0;b<refArr.length;b++){
+                    var elemName = document.getElementById(refArr[b]);
+
+                    var xAxisOrigNumInfEle = parseFloat(window.getComputedStyle(elemName,null).getPropertyValue("left"));
+                    xAxisRefClosed.push(xAxisOrigNumInfEle);
+
+                }
+                // console.log(xAxisInfoClosed + ' These are the left coordinates for all the info elements when you click close');
+
+    var primeElemName = document.getElementById(refArr[0]);
+    // console.log(primeElemName);
+    
+    var xAxisTrack = window.addEventListener("moved", function(event) {
+    parseFloat(window.getComputedStyle(primeElemName,null).getPropertyValue("left"));
+    // console.log(xAxisTrack);
+    })
+
+    var xAxisOrigNum = parseFloat(window.getComputedStyle(primeElemName,null).getPropertyValue("left"));
+    // console.log(xAxisOrigNum + ' This is the position of the x axis for the info backround on move out');
+
+    var xAxis = xAxisOrigNum;
+    // console.log(xAxis + ' this is the xAxis of the info box when moving moveOut');
+
+    var incriment = xAxis/xAxis;
+    // console.log(incriment + ' This is incriment for info background on move out');
+
+    var intSet = setInterval(moveDivs, 25);
+        function moveDivs() {
+            if (xAxis <= (screenW*.85) && xAxis >= (screenW*0.99)*-1) {         
+                incriment = incriment+(incriment/10);
+                // console.log(incriment + ' This is the value of incriment being added to the x axis of all elements');
+                infoBackgroundTravDist += incriment;
+                xAxis = xAxis-incriment;
+                // console.log(xAxis + ' This is the value of xAxis for the info Background in closeinf');
+                primeElemName.style.left = xAxis + 'px';
+                    for(b=1;b<refArr.length;b++){
+                        var elemName = document.getElementById(refArr[b]);
+
+                        var xAxisOrigNumNest = parseFloat(window.getComputedStyle(elemName,null).getPropertyValue("left"));
+                        // console.log(xAxisOrigNumNest + ' This is the original xAxis of the element '+ infoArr[b] +' in the infoArr Array');
+
+                        var xAxisNest = xAxisOrigNumNest;
+                        // console.log(xAxisNest + ' this is the xAxis of the element '+ infoArr[b] +' in the info box');
+
+                        var incrimentNest = incriment;
+                        // console.log(incrimentNest + ' This is the value of incrimentNest');
+
+                        xAxisNest = xAxisNest-incrimentNest;
+
+                        elemName.style.left = xAxisNest + 'px';
+                    }
+            } else {
+                for(b=0;b<xAxisRefClosed.length;b++){
+                    var elemName = document.getElementById(refArr[b]);
+
+                    // console.log(elemName.style.left);
+
+                    // elemName.style.left = (xAxisRefClosed[b] - refBackgroundTravDist)  + 'px';
+                    //elemName.style.left = (xAxisRefClosed[b] - refBackgroundTravDist)  + 'px';
+                }
+                // console.log(infoBackgroundTravDist + 'This is the calculated distance travled');
+                clearInterval(intSet);
+                // buildInteraction();
+            }
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
